@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediSupplyPro - Proveedor de Insumos Médicos</title>
+    <style>
+        :root {
+            --azul-oscuro: #0a2463;
+            --azul-medio: #3e92cc;
+            --azul-claro: #d6eaff;
+            --azul-acento: #1e88e5;
+            --azul-hover: #1565c0;
+            --blanco: #ffffff;
+            --gris-claro: #f5f5f5;
+            --gris-medio: #e0e0e0;
+            --negro: #212121;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--negro);
+            background-color: var(--gris-claro);
+        }
+        
+        /* Header */
+        .main-header {
+            background-color: var(--azul-oscuro);
+            color: var(--blanco);
+            padding: 1.5rem 2rem;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .main-header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Navegación */
+        .main-nav {
+            background-color: var(--azul-medio);
+            padding: 0.8rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .nav-list {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+        }
+        
+        .nav-item {
+            margin: 0 1rem;
+        }
+        
+        .nav-link {
+            color: var(--blanco);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-link:hover {
+            background-color: var(--azul-hover);
+        }
+        
+        /* Contenedor Principal */
+        .main-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        /* Módulos */
+        .module {
+            background-color: var(--blanco);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+        
+        .module-header {
+            background-color: var(--azul-acento);
+            color: var(--blanco);
+            padding: 1rem 1.5rem;
+        }
+        
+        .module-header h2 {
+            font-size: 1.5rem;
+        }
+        
+        .module-body {
+            padding: 1.5rem;
+        }
+        
+        /* Módulo de Productos */
+        .products-module .module-header {
+            background-color: #1976d2;
+        }
+        
+        /* Módulo de Recetas */
+        .prescription-module .module-header {
+            background-color: #2196f3;
+        }
+        
+        /* Grid de Productos */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .product-card {
+            border: 1px solid var(--gris-medio);
+            border-radius: 6px;
+            padding: 1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            background-color: var(--blanco);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 160px;
+            object-fit: contain;
+            margin-bottom: 1rem;
+            background-color: var(--gris-claro);
+            border-radius: 4px;
+        }
+        
+        .product-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--azul-oscuro);
+        }
+        
+        .product-price {
+            font-weight: bold;
+            color: var(--azul-acento);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--azul-acento);
+            color: var(--blanco);
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+            text-align: center;
+        }
+        
+        .btn:hover {
+            background-color: var(--azul-hover);
+        }
+        
+        /* Carrito flotante */
+        .cart-icon {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--azul-oscuro);
+            color: white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        
+        /* Panel del carrito */
+        .cart-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background-color: white;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            transition: right 0.3s;
+            z-index: 999;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .cart-panel.open {
+            right: 0;
+        }
+        
+        .cart-items {
+            max-height: 60vh;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+        }
+        
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--gris-medio);
+        }
+        
+        .cart-item-info {
+            flex: 1;
+        }
+        
+        .cart-item-name {
+            font-weight: 500;
+        }
+        
+        .cart-item-price {
+            color: var(--azul-acento);
+            font-size: 0.9rem;
+        }
+        
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+        }
+        
+        .quantity-btn {
+            background-color: var(--azul-claro);
+            color: var(--azul-oscuro);
+            border: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .quantity-btn:hover {
+            background-color: var(--azul-medio);
+            color: var(--blanco);
+        }
+        
+        .cart-item-quantity {
+            margin: 0 0.5rem;
+            min-width: 20px;
+            text-align: center;
+        }
+        
+        .cart-total {
+            font-weight: bold;
+            text-align: right;
+            font-size: 1.2rem;
+            margin: 1rem 0;
+            padding-top: 1rem;
+            border-top: 2px solid var(--azul-claro);
+        }
+        
+        .checkout-btn {
+            background-color: var(--azul-oscuro);
+            width: 100%;
+        }
+        
+        .checkout-btn:hover {
+            background-color: #091f3a;
+        }
+        
+        /* Sección de Inicio */
+        .hero-section {
+            background-color: var(--azul-claro);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+        }
+        
+        .hero-section h2 {
+            color: var(--azul-oscuro);
+            margin-bottom: 1rem;
+        }
+        
+        .about-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .about-images {
+            flex: 1;
+            min-width: 300px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        
+        .about-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        /* Formulario de Receta */
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--azul-oscuro);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.7rem;
+            border: 1px solid var(--gris-medio);
+            border-radius: 4px;
+            font-family: inherit;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--azul-acento);
+            box-shadow: 0 0 0 2px rgba(30, 136, 229, 0.2);
+        }
+        
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        /* Resultado de Diagnóstico */
+        .diagnosis-result {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            background-color: var(--azul-claro);
+            border-radius: 6px;
+            border-left: 4px solid var(--azul-acento);
+        }
+        
+        .diagnosis-title {
+            color: var(--azul-oscuro);
+            margin-bottom: 0.8rem;
+        }
+        
+        .medication-list {
+            margin-top: 1rem;
+        }
+        
+        .medication-item {
+            background-color: var(--blanco);
+            padding: 0.8rem;
+            margin-bottom: 0.8rem;
+            border-radius: 4px;
+            border-left: 3px solid var(--azul-acento);
+        }
+        
+        .medication-name {
+            font-weight: 500;
+            color: var(--azul-oscuro);
+        }
+        
+        .medication-dosage {
+            font-size: 0.9rem;
+            color: var(--negro);
+            margin-top: 0.3rem;
+        }
+        
+        /* Modales */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: var(--blanco);
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        
+        .modal-header {
+            background-color: var(--azul-oscuro);
+            color: var(--blanco);
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-title {
+            font-size: 1.3rem;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--blanco);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .modal-body {
+            padding: 1.5rem;
+        }
+        
+        .payment-method {
+            display: none;
+        }
+        
+        /* Ticket */
+        .ticket {
+            font-family: 'Courier New', monospace;
+            padding: 1.5rem;
+            background-color: var(--blanco);
+            border: 1px dashed var(--negro);
+        }
+        
+        .ticket-header {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        .ticket-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .ticket-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .ticket-total {
+            font-weight: bold;
+            border-top: 1px dashed var(--negro);
+            padding-top: 0.8rem;
+            margin-top: 0.8rem;
+        }
+        
+        .print-btn {
+            display: block;
+            margin: 1.5rem auto 0;
+            padding: 0.8rem 1.5rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-list {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-item {
+                margin: 0.3rem 0;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .cart-panel {
+                width: 100%;
+                right: -100%;
+            }
+            
+            .cart-panel.open {
+                right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Encabezado -->
+    <header class="main-header">
+        <h1>MediSupplyPro</h1>
+        <p>Proveedor confiable de insumos médicos y farmacéuticos</p>
+    </header>
+    
+    <!-- Navegación -->
+    <nav class="main-nav">
+        <ul class="nav-list">
+            <li class="nav-item"><a href="#inicio" class="nav-link">Inicio</a></li>
+            <li class="nav-item"><a href="#productos" class="nav-link">Productos</a></li>
+            <li class="nav-item"><a href="#recetas" class="nav-link">Recetas</a></li>
+            <li class="nav-item"><a href="#contacto" class="nav-link">Contacto</a></li>
+        </ul>
+    </nav>
+    
+    <!-- Icono del carrito -->
+    <div class="cart-icon" id="cart-icon">
+        🛒
+        <span class="cart-count" id="cart-count">0</span>
+    </div>
+    
+    <!-- Panel del carrito -->
+    <div class="cart-panel" id="cart-panel">
+        <h2>Carrito de Compras</h2>
+        <div id="cart-items" class="cart-items">
+            <p class="empty-cart-message">El carrito está vacío</p>
+        </div>
+        
+        <div class="cart-total">
+            Total: $<span id="cart-total">0.00</span> MXN
+        </div>
+        
+        <button class="btn checkout-btn" id="checkout-btn">Proceder al Pago</button>
+    </div>
+    
+    <!-- Contenido Principal -->
+    <main class="main-container">
+        <!-- Sección de Inicio -->
+        <section id="inicio" class="module">
+            <div class="hero-section">
+                <h2>Bienvenido a MediSupplyPro</h2>
+                <p>Tu proveedor confiable de insumos médicos y farmacéuticos de alta calidad</p>
+            </div>
+            
+            <div class="about-section">
+                <div class="about-text">
+                    <h2>Sobre Nosotros</h2>
+                    <p>MediSupplyPro es una empresa dedicada a la distribución de insumos médicos y farmacéuticos con más de 15 años de experiencia en el mercado. Nuestro compromiso es ofrecer productos de la más alta calidad a precios competitivos.</p>
+                    <p>Trabajamos directamente con los principales laboratorios y fabricantes para garantizar la autenticidad y calidad de todos nuestros productos. Nuestro equipo de profesionales de la salud está siempre disponible para asesorarte.</p>
+                </div>
+                
+                <div class="about-images">
+                    <img src="https://via.placeholder.com/300x200?text=Almacén" alt="Nuestro almacén" class="about-image">
+                    <img src="https://via.placeholder.com/300x200?text=Equipo" alt="Nuestro equipo" class="about-image">
+                    <img src="https://via.placeholder.com/300x200?text=Distribución" alt="Proceso de distribución" class="about-image">
+                    <img src="https://via.placeholder.com/300x200?text=Certificaciones" alt="Nuestras certificaciones" class="about-image">
+                </div>
+            </div>
+        </section>
+        
+        <!-- Módulo de Productos -->
+        <section id="productos" class="module products-module" style="display: none;">
+            <div class="module-header">
+                <h2>Catálogo de Productos</h2>
+            </div>
+            <div class="module-body">
+                <div class="products-grid">
+                    <!-- Producto 1 -->
+                    <div class="product-card">
+                        <img src="https://via.placeholder.com/250x150?text=Paracetamol" alt="Paracetamol 500mg" class="product-image">
+                        <h3 class="product-title">Paracetamol 500mg</h3>
+                        <p>Caja con 20 tabletas</p>
+                        <p class="product-price">$120.00 MXN</p>
+                        <button class="btn add-to-cart" data-id="1" data-name="Paracetamol 500mg" data-price="120">Agregar al carrito</button>
+                    </div>
+                    
+                    <!-- Producto 2 -->
+                    <div class="product-card">
+                        <img src="https://via.placeholder.com/250x150?text=Ibuprofeno" alt="Ibuprofeno 400mg" class="product-image">
+                        <h3 class="product-title">Ibuprofeno 400mg</h3>
+                        <p>Caja con 20 tabletas</p>
+                        <p class="product-price">$150.00 MXN</p>
+                        <button class="btn add-to-cart" data-id="2" data-name="Ibuprofeno 400mg" data-price="150">Agregar al carrito</button>
+                    </div>
+                    
+                    <!-- Producto 3 -->
+                    <div class="product-card">
+                        <img src="https://via.placeholder.com/250x150?text=Amoxicilina" alt="Amoxicilina 500mg" class="product-image">
+                        <h3 class="product-title">Amoxicilina 500mg</h3>
+                        <p>Caja con 12 cápsulas</p>
+                        <p class="product-price">$250.00 MXN</p>
+                        <button class="btn add-to-cart" data-id="3" data-name="Amoxicilina 500mg" data-price="250">Agregar al carrito</button>
+                    </div>
+                    
+                    <!-- Producto 4 -->
+                    <div class="product-card">
+                        <img src="https://via.placeholder.com/250x150?text=Omeprazol" alt="Omeprazol 20mg" class="product-image">
+                        <h3 class="product-title">Omeprazol 20mg</h3>
+                        <p>Caja con 14 cápsulas</p>
+                        <p class="product-price">$180.00 MXN</p>
+                        <button class="btn add-to-cart" data-id="4" data-name="Omeprazol 20mg" data-price="180">Agregar al carrito</button>
+                    </div>
+                    
+                    <!-- Producto 5 -->
+                    <div class="product-card">
+                        <img src="https://via.placeholder.com/250x150?text=Jeringa" alt="Jeringa 3ml" class="product-image">
+                        <h3 class="product-title">Jeringa 3ml</h3>
+                        <p>Caja con 50 unidades</p>
+                        <p class="product-price">$350.00 MXN</p>
+                        <button class="btn add-to-cart" data-id="5" data-name="Jeringa 3ml" data-price="350">Agregar al carrito</button>
+                    </div>
+                    
+                    <!-- Producto 6 -->
+                    <div class="product-card">
+                        <img src="https://via.placeholder.com/250x150?text=Cubrebocas" alt="Cubrebocas N95" class="product-image">
+                        <h3 class="product-title">Cubrebocas N95</h3>
+                        <p>Caja con 20 piezas</p>
+                        <p class="product-price">$400.00 MXN</p>
+                        <button class="btn add-to-cart" data-id="6" data-name="Cubrebocas N95" data-price="400">Agregar al carrito</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Módulo de Recetas -->
+        <section id="recetas" class="module prescription-module" style="display: none;">
+            <div class="module-header">
+                <h2>Crear Receta Médica</h2>
+            </div>
+            <div class="module-body">
+                <form class="prescription-form">
+                    <div class="form-group">
+                        <label for="patient-name" class="form-label">Nombre del Paciente:</label>
+                        <input type="text" id="patient-name" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="patient-age" class="form-label">Edad:</label>
+                        <input type="number" id="patient-age" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="symptoms" class="form-label">Síntomas (describa detalladamente):</label>
+                        <textarea id="symptoms" class="form-control" required></textarea>
+                    </div>
+                    
+                    <button type="button" class="btn" id="generate-diagnosis">Generar Diagnóstico</button>
+                    
+                    <div id="diagnosis-result" class="diagnosis-result" style="display: none;">
+                        <h3 class="diagnosis-title">Diagnóstico:</h3>
+                        <p id="diagnosis-text"></p>
+                        
+                        <h3 class="diagnosis-title">Medicamentos Recomendados:</h3>
+                        <div id="recommended-meds" class="medication-list"></div>
+                        
+                        <button type="button" class="btn" id="add-recommended-to-cart">Agregar al Carrito</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+        
+        <!-- Módulo de Contacto -->
+        <section id="contacto" class="module" style="display: none;">
+            <div class="module-header">
+                <h2>Contacto</h2>
+            </div>
+            <div class="module-body">
+                <p><strong>Teléfono:</strong> 55 1234 5678</p>
+                <p><strong>Email:</strong> contacto@medisupplypro.com</p>
+                <p><strong>Horario:</strong> Lunes a Viernes de 9:00 a 18:00 hrs</p>
+                <p><strong>Dirección:</strong> Av. Médicos 123, Col. Salud, CDMX</p>
+                <div style="margin-top: 2rem;">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3762.888244552543!2d-99.1694846845266!3d19.42689174592148!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1ff35f5bd1563%3A0x6c366f0e2de02ff7!2sEl%20%C3%81ngel%20de%20la%20Independencia!5e0!3m2!1ses!2smx!4v1620000000000!5m2!1ses!2smx" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Modal de Pago -->
+    <div class="modal" id="payment-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Método de Pago</h3>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="payment-method" class="form-label">Seleccione método de pago:</label>
+                    <select id="payment-method" class="form-control">
+                        <option value="tarjeta">Tarjeta de Crédito/Débito</option>
+                        <option value="efectivo">Efectivo</option>
+                    </select>
+                </div>
+                
+                <div id="credit-card-info" class="payment-method">
+                    <div class="form-group">
+                        <label for="card-number" class="form-label">Número de Tarjeta:</label>
+                        <input type="text" id="card-number" class="form-control" placeholder="1234 5678 9012 3456">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="card-name" class="form-label">Nombre en la Tarjeta:</label>
+                        <input type="text" id="card-name" class="form-control" placeholder="JUAN PEREZ">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="card-expiry" class="form-label">Fecha de Expiración:</label>
+                        <input type="text" id="card-expiry" class="form-control" placeholder="MM/AA">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="card-cvv" class="form-label">CVV:</label>
+                        <input type="text" id="card-cvv" class="form-control" placeholder="123">
+                    </div>
+                </div>
+                
+                <div id="cash-info" class="payment-method">
+                    <div class="form-group">
+                        <label for="bank-name" class="form-label">Banco o Tienda de Conveniencia:</label>
+                        <input type="text" id="bank-name" class="form-control" placeholder="Ej. BBVA, OXXO, 7-Eleven">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reference-number" class="form-label">Número de Referencia (opcional):</label>
+                        <input type="text" id="reference-number" class="form-control">
+                    </div>
+                </div>
+                
+                <button class="btn" id="complete-payment">Completar Pago</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal de Ticket -->
+    <div class="modal" id="ticket-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Ticket de Compra</h3>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="ticket" id="ticket-content">
+                    <div class="ticket-header">
+                        <h2 class="ticket-title">MediSupplyPro</h2>
+                        <p>Fecha: <span id="ticket-date"></span></p>
+                        <p>N° de Transacción: <span id="ticket-number"></span></p>
+                    </div>
+                    <hr>
+                    <div id="ticket-items">
+                        <!-- Los productos del ticket aparecerán aquí -->
+                    </div>
+                    <hr>
+                    <div class="ticket-total">
+                        Total: $<span id="ticket-total">0.00</span> MXN
+                    </div>
+                    <div id="payment-details">
+                        <!-- Detalles de pago aparecerán aquí -->
+                    </div>
+                    <hr>
+                    <p>¡Gracias por su compra!</p>
+                    <p>Para dudas o aclaraciones, contacte a servicioalcliente@medisupplypro.com</p>
+                </div>
+                <button class="btn print-btn" id="print-ticket">Imprimir Ticket</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Carrito de compras
+        let cart = [];
+        let cartTotal = 0;
+        
+        // Elementos del DOM
+        const cartIcon = document.getElementById('cart-icon');
+        const cartPanel = document.getElementById('cart-panel');
+        const cartCount = document.getElementById('cart-count');
+        const cartItemsEl = document.getElementById('cart-items');
+        const cartTotalEl = document.getElementById('cart-total');
+        const checkoutBtn = document.getElementById('checkout-btn');
+        const addToCartBtns = document.querySelectorAll('.add-to-cart');
+        const paymentModal = document.getElementById('payment-modal');
+        const paymentMethodSelect = document.getElementById('payment-method');
+        const creditCardInfo = document.getElementById('credit-card-info');
+        const cashInfo = document.getElementById('cash-info');
+        const completePaymentBtn = document.getElementById('complete-payment');
+        const ticketModal = document.getElementById('ticket-modal');
+        const printTicketBtn = document.getElementById('print-ticket');
+        const generateDiagnosisBtn = document.getElementById('generate-diagnosis');
+        const diagnosisResult = document.getElementById('diagnosis-result');
+        const diagnosisText = document.getElementById('diagnosis-text');
+        const recommendedMeds = document.getElementById('recommended-meds');
+        const addRecommendedToCartBtn = document.getElementById('add-recommended-to-cart');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('section[id]');
+        
+        // Mostrar sección según enlace clickeado
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                
+                // Ocultar todas las secciones
+                sections.forEach(section => {
+                    section.style.display = 'none';
+                });
+                
+                // Mostrar solo la sección objetivo
+                document.getElementById(targetId).style.display = 'block';
+                
+                // Cerrar el carrito si está abierto
+                cartPanel.classList.remove('open');
+            });
+        });
+        
+        // Mostrar la sección de inicio por defecto
+        document.getElementById('inicio').style.display = 'block';
+        
+        // Mostrar/ocultar el carrito
+        cartIcon.addEventListener('click', function() {
+            cartPanel.classList.toggle('open');
+        });
+        
+        // Mostrar/ocultar métodos de pago según selección
+        paymentMethodSelect.addEventListener('change', function() {
+            if (this.value === 'tarjeta') {
+                creditCardInfo.style.display = 'block';
+                cashInfo.style.display = 'none';
+            } else {
+                creditCardInfo.style.display = 'none';
+                cashInfo.style.display = 'block';
+            }
+        });
+        
+        // Agregar productos al carrito
+        addToCartBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                const name = this.getAttribute('data-name');
+                const price = parseFloat(this.getAttribute('data-price'));
+                
+                // Verificar si el producto ya está en el carrito
+                const existingItem = cart.find(item => item.id === id);
+                
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    cart.push({
+                        id,
+                        name,
+                        price,
+                        quantity: 1
+                    });
+                }
+                
+                updateCart();
+                // Mostrar el carrito cuando se agrega un producto
+                cartPanel.classList.add('open');
+            });
+        });
+        
+        // Actualizar el carrito
+        function updateCart() {
+            if (cart.length === 0) {
+                cartItemsEl.innerHTML = '<p class="empty-cart-message">El carrito está vacío</p>';
+                cartTotalEl.textContent = '0.00';
+                cartCount.textContent = '0';
+                return;
+            }
+            
+            cartItemsEl.innerHTML = '';
+            cartTotal = 0;
+            let totalItems = 0;
+            
+            cart.forEach(item => {
+                cartTotal += item.price * item.quantity;
+                totalItems += item.quantity;
+                
+                const itemEl = document.createElement('div');
+                itemEl.className = 'cart-item';
+                itemEl.innerHTML = `
+                    <div class="cart-item-info">
+                        <p class="cart-item-name">${item.name}</p>
+                        <p class="cart-item-price">$${item.price.toFixed(2)} MXN</p>
+                    </div>
+                    <div class="cart-item-controls">
+                        <button class="quantity-btn decrease-quantity" data-id="${item.id}">-</button>
+                        <span class="cart-item-quantity">${item.quantity}</span>
+                        <button class="quantity-btn increase-quantity" data-id="${item.id}">+</button>
+                    </div>
+                `;
+                
+                cartItemsEl.appendChild(itemEl);
+            });
+            
+            cartTotalEl.textContent = cartTotal.toFixed(2);
+            cartCount.textContent = totalItems;
+            
+            // Agregar event listeners a los botones de cantidad
+            document.querySelectorAll('.decrease-quantity').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    const item = cart.find(item => item.id === id);
+                    
+                    if (item.quantity > 1) {
+                        item.quantity -= 1;
+                    } else {
+                        cart = cart.filter(item => item.id !== id);
+                    }
+                    
+                    updateCart();
+                });
+            });
+            
+            document.querySelectorAll('.increase-quantity').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    const item = cart.find(item => item.id === id);
+                    item.quantity += 1;
+                    updateCart();
+                });
+            });
+        }
+        
+        // Abrir modal de pago
+        checkoutBtn.addEventListener('click', function() {
+            if (cart.length === 0) {
+                alert('El carrito está vacío');
+                return;
+            }
+            
+            paymentModal.style.display = 'flex';
+            paymentMethodSelect.dispatchEvent(new Event('change'));
+        });
+        
+        // Cerrar modales
+        document.querySelectorAll('.close-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                paymentModal.style.display = 'none';
+                ticketModal.style.display = 'none';
+            });
+        });
+        
+        // Completar pago
+        completePaymentBtn.addEventListener('click', function() {
+            // Validar información de pago
+            if (paymentMethodSelect.value === 'tarjeta') {
+                const cardNumber = document.getElementById('card-number').value;
+                const cardName = document.getElementById('card-name').value;
+                const cardExpiry = document.getElementById('card-expiry').value;
+                const cardCvv = document.getElementById('card-cvv').value;
+                
+                if (!cardNumber || !cardName || !cardExpiry || !cardCvv) {
+                    alert('Por favor complete toda la información de la tarjeta');
+                    return;
+                }
+            } else {
+                const bankName = document.getElementById('bank-name').value;
+                if (!bankName) {
+                    alert('Por favor indique el banco o tienda de conveniencia');
+                    return;
+                }
+            }
+            
+            // Generar ticket
+            generateTicket();
+            
+            // Cerrar modal de pago y abrir modal de ticket
+            paymentModal.style.display = 'none';
+            ticketModal.style.display = 'flex';
+            
+            // Vaciar el carrito
+            cart = [];
+            updateCart();
+        });
+        
+        // Generar ticket
+        function generateTicket() {
+            const now = new Date();
+            document.getElementById('ticket-date').textContent = now.toLocaleString();
+            document.getElementById('ticket-number').textContent = Math.floor(Math.random() * 1000000);
+            
+            const ticketItemsEl = document.getElementById('ticket-items');
+            ticketItemsEl.innerHTML = '';
+            
+            cart.forEach(item => {
+                const itemEl = document.createElement('div');
+                itemEl.className = 'ticket-item';
+                itemEl.innerHTML = `
+                    <span>${item.name} x${item.quantity}</span>
+                    <span>$${(item.price * item.quantity).toFixed(2)}</span>
+                `;
+                ticketItemsEl.appendChild(itemEl);
+            });
+            
+            document.getElementById('ticket-total').textContent = cartTotal.toFixed(2);
+            
+            const paymentDetailsEl = document.getElementById('payment-details');
+            paymentDetailsEl.innerHTML = '';
+            
+            if (paymentMethodSelect.value === 'tarjeta') {
+                const cardNumber = document.getElementById('card-number').value;
+                paymentDetailsEl.innerHTML = `
+                    <p>Método de pago: Tarjeta</p>
+                    <p>Terminación: ${cardNumber.slice(-4)}</p>
+                `;
+            } else {
+                const bankName = document.getElementById('bank-name').value;
+                const referenceNumber = document.getElementById('reference-number').value;
+                paymentDetailsEl.innerHTML = `
+                    <p>Método de pago: Efectivo</p>
+                    <p>Banco/Tienda: ${bankName}</p>
+                    ${referenceNumber ? `<p>Referencia: ${referenceNumber}</p>` : ''}
+                `;
+            }
+        }
+        
+        // Imprimir ticket
+        printTicketBtn.addEventListener('click', function() {
+            window.print();
+        });
+        
+        // Generar diagnóstico basado en síntomas
+        generateDiagnosisBtn.addEventListener('click', function() {
+            const symptoms = document.getElementById('symptoms').value.toLowerCase();
+            
+            if (!symptoms) {
+                alert('Por favor describa los síntomas');
+                return;
+            }
+            
+            // Diagnósticos basados en palabras clave
+            let diagnosis = '';
+            let medications = [];
+            
+            if (symptoms.includes('fiebre') && symptoms.includes('dolor de garganta') && symptoms.includes('tos')) {
+                diagnosis = 'El paciente presenta síntomas de faringitis aguda o posible influenza. Se recomienda reposo, hidratación y medicación sintomática.';
+                medications = [
+                    {name: 'Paracetamol 500mg', price: 120, dosage: '1 tableta cada 8 horas por 5 días'},
+                    {name: 'Ibuprofeno 400mg', price: 150, dosage: '1 tableta cada 12 horas por 3 días (si el dolor persiste)'}
+                ];
+            } else if (symptoms.includes('dolor de cabeza') && symptoms.includes('náuseas') && symptoms.includes('sensibilidad a la luz')) {
+                diagnosis = 'El paciente presenta síntomas sugestivos de migraña. Se recomienda reposo en lugar oscuro y medicación específica.';
+                medications = [
+                    {name: 'Sumatriptán 50mg', price: 350, dosage: '1 tableta al inicio del dolor, repetir en 2 horas si es necesario (máximo 2 tabletas en 24 horas)'}
+                ];
+            } else if (symptoms.includes('dolor abdominal') && symptoms.includes('acidez') && symptoms.includes('eructos')) {
+                diagnosis = 'El paciente presenta síntomas de gastritis o reflujo gastroesofágico. Se recomienda dieta blanda y medicación para proteger la mucosa gástrica.';
+                medications = [
+                    {name: 'Omeprazol 20mg', price: 180, dosage: '1 cápsula en ayunas por 14 días'},
+                    {name: 'Sales de frutas', price: 80, dosage: '1 sobre disuelto en agua después de comidas pesadas'}
+                ];
+            } else if (symptoms.includes('tos') && symptoms.includes('flema') && symptoms.includes('dificultad para respirar')) {
+                diagnosis = 'El paciente presenta síntomas de bronquitis aguda. Se recomienda hidratación y medicación para aliviar síntomas.';
+                medications = [
+                    {name: 'Ambroxol 30mg', price: 200, dosage: '1 tableta cada 12 horas por 7 días'},
+                    {name: 'Salbutamol inhalador', price: 280, dosage: '2 inhalaciones cada 6 horas según necesidad'}
+                ];
+            } else {
+                diagnosis = 'Los síntomas descritos no son específicos. Se recomienda valoración médica presencial para diagnóstico preciso. Como tratamiento sintomático se puede considerar:';
+                medications = [
+                    {name: 'Paracetamol 500mg', price: 120, dosage: '1 tableta cada 8 horas según dolor o fiebre'}
+                ];
+            }
+            
+            // Mostrar diagnóstico y medicamentos recomendados
+            diagnosisText.textContent = diagnosis;
+            
+            recommendedMeds.innerHTML = '';
+            medications.forEach(med => {
+                const medEl = document.createElement('div');
+                medEl.className = 'medication-item';
+                medEl.innerHTML = `
+                    <p class="medication-name">${med.name} - $${med.price.toFixed(2)} MXN</p>
+                    <p class="medication-dosage">Dosis: ${med.dosage}</p>
+                `;
+                recommendedMeds.appendChild(medEl);
+            });
+            
+            diagnosisResult.style.display = 'block';
+            
+            // Configurar botón para agregar medicamentos recomendados al carrito
+            addRecommendedToCartBtn.onclick = function() {
+                medications.forEach(med => {
+                    const existingItem = cart.find(item => item.name === med.name);
+                    
+                    if (existingItem) {
+                        existingItem.quantity += 1;
+                    } else {
+                        cart.push({
+                            id: `rec-${Math.floor(Math.random() * 1000)}`,
+                            name: med.name,
+                            price: med.price,
+                            quantity: 1
+                        });
+                    }
+                });
+                
+                updateCart();
+                alert('Medicamentos agregados al carrito');
+            };
+        });
+    </script>
+</body>
+</html>
