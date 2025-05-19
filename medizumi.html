@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediSupply - Proveedores de Medicamentos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #2a5a8a;
+            --secondary-blue: #3a7cb9;
+            --light-blue: #e6f2ff;
+            --dark-blue: #1a3a5a;
+            --neutral-gray: #f5f5f5;
+            --text-dark: #333;
+            --text-light: #fff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Header y navegación */
+        header {
+            background-color: var(--primary-blue);
+            color: var(--text-light);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: var(--light-blue);
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .nav-btn {
+            padding: 0.6rem 1.2rem;
+            background-color: var(--secondary-blue);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .nav-btn:hover {
+            background-color: var(--light-blue);
+            color: var(--primary-blue);
+            transform: translateY(-2px);
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(42, 90, 138, 0.8), rgba(42, 90, 138, 0.8)), 
+                        url('https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 0 2rem;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease forwards 0.3s;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease forwards 0.6s;
+        }
+        
+        .hero-btn {
+            padding: 0.8rem 1.8rem;
+            background-color: var(--light-blue);
+            color: var(--primary-blue);
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease forwards 0.9s;
+            text-decoration: none;
+        }
+        
+        .hero-btn:hover {
+            background-color: white;
+            transform: translateY(-5px);
+        }
+        
+        /* Secciones */
+        section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--secondary-blue);
+        }
+        
+        .section-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        /* Sección de metodología */
+        .methodology {
+            background-color: var(--neutral-gray);
+        }
+        
+        .method-card {
+            flex: 1 1 300px;
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .method-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .method-card i {
+            font-size: 2.5rem;
+            color: var(--secondary-blue);
+            margin-bottom: 1.5rem;
+        }
+        
+        .method-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-blue);
+        }
+        
+        /* Sección de impacto */
+        .impact-stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+            margin: 1rem;
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+        }
+        
+        /* Sección de testimonios */
+        .testimonials {
+            background-color: var(--light-blue);
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .testimonial-card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+        
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-size: 5rem;
+            color: var(--secondary-blue);
+            opacity: 0.2;
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+        
+        .testimonial-text {
+            margin-bottom: 1.5rem;
+            font-style: italic;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+        
+        /* Sección de contacto */
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+        
+        .contact-card {
+            flex: 1 1 300px;
+            background-color: var(--neutral-gray);
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .contact-card i {
+            font-size: 2rem;
+            color: var(--secondary-blue);
+            margin-bottom: 1rem;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-blue);
+            color: var(--text-light);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+        
+        .footer-section {
+            flex: 1 1 250px;
+            text-align: left;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-section ul li a {
+            color: var(--light-blue);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section ul li a:hover {
+            color: white;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-icons a {
+            color: white;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            color: var(--light-blue);
+        }
+        
+        .copyright {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Animaciones */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Efectos al desplazar */
+        .animate {
+            animation: fadeInUp 1s ease forwards;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header con botones de navegación -->
+    <header>
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-pills"></i>
+                <span>MediSupply</span>
+            </div>
+            <div class="nav-buttons">
+                <a href="#hospitales" class="nav-btn">Hospitales</a>
+                <a href="#atencion-medica" class="nav-btn">Atención Médica</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sección Hero -->
+    <section class="hero">
+        <h1>Soluciones Integrales en Suministro de Medicamentos</h1>
+        <p>Proveedores confiables de medicamentos para hospitales, clínicas y pacientes particulares, con la más alta calidad y estándares de distribución.</p>
+        <a href="#contacto" class="hero-btn">Contáctenos</a>
+    </section>
+
+    <!-- Sección de Información General -->
+    <section id="informacion">
+        <h2 class="section-title">Nuestra Empresa</h2>
+        <div class="section-content">
+            <div class="method-card">
+                <i class="fas fa-briefcase-medical"></i>
+                <h3>Misión</h3>
+                <p>Proveer medicamentos de calidad con estándares internacionales a instituciones de salud y pacientes, garantizando disponibilidad, seguridad y eficiencia en la distribución.</p>
+            </div>
+            <div class="method-card">
+                <i class="fas fa-eye"></i>
+                <h3>Visión</h3>
+                <p>Ser líderes en el suministro de medicamentos en la región, reconocidos por nuestra excelencia operativa y contribución al sistema de salud.</p>
+            </div>
+            <div class="method-card">
+                <i class="fas fa-hand-holding-heart"></i>
+                <h3>Valores</h3>
+                <p>Integridad, responsabilidad, innovación, servicio al cliente y compromiso con la salud pública.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Metodología -->
+    <section class="methodology">
+        <h2 class="section-title">Nuestra Metodología</h2>
+        <div class="section-content">
+            <div class="method-card">
+                <i class="fas fa-clipboard-check"></i>
+                <h3>Control de Calidad</h3>
+                <p>Implementamos rigurosos protocolos de verificación para garantizar que todos los medicamentos cumplan con los más altos estándares de calidad.</p>
+            </div>
+            <div class="method-card">
+                <i class="fas fa-truck"></i>
+                <h3>Logística Eficiente</h3>
+                <p>Sistema de distribución optimizado con tecnología de punta para entregas rápidas y seguras en todo momento.</p>
+            </div>
+            <div class="method-card">
+                <i class="fas fa-laptop-medical"></i>
+                <h3>Tecnología Integrada</h3>
+                <p>Plataformas digitales para seguimiento de pedidos, inventario en tiempo real y comunicación directa con clientes.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Impacto -->
+    <section id="impacto">
+        <h2 class="section-title">Nuestro Impacto</h2>
+        <p style="text-align: center; max-width: 800px; margin: 0 auto 2rem; opacity: 0; transform: translateY(20px);">
+            En MediSupply nos enorgullece haber contribuido significativamente al sistema de salud, apoyando tanto a grandes instituciones como a pacientes individuales.
+        </p>
+        <div class="impact-stats">
+            <div class="stat-item">
+                <div class="stat-number">150+</div>
+                <div class="stat-label">Hospitales atendidos</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">5,000+</div>
+                <div class="stat-label">Médicos asociados</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">2M+</div>
+                <div class="stat-label">Pacientes beneficiados</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">98%</div>
+                <div class="stat-label">Satisfacción del cliente</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Testimonios -->
+    <section class="testimonials">
+        <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+        <div class="testimonial-grid section-content">
+            <div class="testimonial-card">
+                <p class="testimonial-text">MediSupply ha sido un aliado fundamental para nuestro hospital. Su sistema de suministro just-in-time nos ha permitido optimizar inventarios y reducir costos sin comprometer la disponibilidad de medicamentos.</p>
+                <p class="testimonial-author">Dr. Javier Rodríguez, Director Hospital Central</p>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">Como médico general, valoro la rapidez con que puedo obtener medicamentos especializados para mis pacientes a través de MediSupply, incluso en zonas rurales.</p>
+                <p class="testimonial-author">Dra. Laura Méndez, Clínica Privada</p>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">Gracias a su programa de medicamentos accesibles, mi tratamiento crónico es ahora sostenible económicamente. Excelente servicio al cliente.</p>
+                <p class="testimonial-author">Sra. Carmen Torres, Paciente</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección para Hospitales -->
+    <section id="hospitales" style="background-color: var(--neutral-gray);">
+        <h2 class="section-title">Soluciones para Hospitales</h2>
+        <div class="section-content">
+            <div class="method-card">
+                <i class="fas fa-hospital"></i>
+                <h3>Suministro Integral</h3>
+                <p>Ofrecemos contratos personalizados para el abastecimiento completo de medicamentos, insumos médicos y equipamiento.</p>
+            </div>
+            <div class="method-card">
+                <i class="fas fa-chart-line"></i>
+                <h3>Gestión de Inventarios</h3>
+                <p>Sistemas avanzados para previsión de demanda y reposición automática basada en consumo real.</p>
+            </div>
+            <div class="method-card">
+                <i class="fas fa-file-contract"></i>
+                <h3>Contratos Flexibles</h3>
+                <p>Acuerdos adaptables a las necesidades específicas de cada institución, con opciones de pago convenientes.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección para Atención Médica -->
+    <section id="atencion-medica">
+        <h2 class="section-title">Atención a Médicos y Pacientes</h2>
+        <div class="section-content">
+            <div class="method-card">
+                <i class="fas fa-user-md"></i>
+                <h3>Para Profesionales</h3>
+                <p>Acceso prioritario a medicamentos especializados, descuentos por volumen y entrega directa en consultorios.</p>
+            </div>
+            <div class="method-card">
+                <i class="fas fa-home"></i>
+                <h3>Entrega a Domicilio</h3>
+                <p>Servicio de entrega rápida y segura de recetas médicas en la comodidad de su hogar.</p>
+            </div>
+            <div class="method-card">
+                <i class="fas fa-hand-holding-usd"></i>
+                <h3>Programas Sociales</h3>
+                <p>Medicamentos accesibles para pacientes con condiciones crónicas y de bajos recursos.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Contacto -->
+    <section id="contacto">
+        <h2 class="section-title">Contáctenos</h2>
+        <div class="contact-info section-content">
+            <div class="contact-card">
+                <i class="fas fa-phone-alt"></i>
+                <h3>Teléfono</h3>
+                <p>+1 (800) 123-4567</p>
+                <p>Lunes a Viernes: 8am - 6pm</p>
+            </div>
+            <div class="contact-card">
+                <i class="fas fa-envelope"></i>
+                <h3>Email</h3>
+                <p>info@medisupply.com</p>
+                <p>emergencias@medisupply.com</p>
+            </div>
+            <div class="contact-card">
+                <i class="fas fa-map-marker-alt"></i>
+                <h3>Dirección</h3>
+                <p>Av. de la Salud 1234</p>
+                <p>Ciudad Médica, CP 45678</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>MediSupply</h3>
+                <p>Líderes en distribución de medicamentos con calidad, confiabilidad y compromiso con la salud.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Enlaces Rápidos</h3>
+                <ul>
+                    <li><a href="#informacion">Sobre Nosotros</a></li>
+                    <li><a href="#hospitales">Para Hospitales</a></li>
+                    <li><a href="#atencion-medica">Atención Médica</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="#">Términos y Condiciones</a></li>
+                    <li><a href="#">Política de Privacidad</a></li>
+                    <li><a href="#">Aviso Legal</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2023 MediSupply. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Animación al desplazar
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                threshold: 0.1
+            };
+            
+            const observer = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+            
+            // Observar elementos que deben animarse
+            const sections = document.querySelectorAll('.section-title, .section-content, .impact-stats, .hero p, .hero h1, .hero-btn');
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            // Smooth scrolling para enlaces
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Efecto de reducción del header al hacer scroll
+            window.addEventListener('scroll', function() {
+                const header = document.querySelector('header');
+                if (window.scrollY > 50) {
+                    header.style.padding = '0.5rem 2rem';
+                } else {
+                    header.style.padding = '1rem 2rem';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
